@@ -118,7 +118,6 @@ function App() {
         }}
       >
         <form
-          onSubmit={handleSignOut}
           encType="multipart/form-data"
           style={{
             borderRadius: "20px",
@@ -233,6 +232,7 @@ function App() {
           )}
         </div>
         <button
+          onClick={handleSignOut}
           style={{ ...buttonStyle, width: "100%", backgroundColor: "red" }}
         >
           Logout
