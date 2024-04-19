@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/db";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -31,54 +30,90 @@ const RegisterForm = () => {
   };
 
   return (
-    <div
-      style={{
-        height: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <form onSubmit={handleSubmit}>
-        <h1>Register Here</h1>
-        <div style={{ marginBottom: "20px", marginTop: "20px" }}>
-          <label>Enter Email</label>
-          <input
-            type="email"
-            placeholder="Enter your email address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+    <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center h-screen">
+        <div className="max-w-sm w-full p-8">
+          <h2 className="mt-10 text-center text-xl font-semibold text-gray-900">
+            Register Here
+          </h2>
+
+          <form className="mt-8" onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label
+                htmlFor="email"
+                className="block text-sm font-semibold text-gray-900"
+              >
+                Email address
+              </label>
+              <input
+                placeholder="Enter your email address"
+                id="email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                autoComplete="email"
+                required
+                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-1 focus:ring-indigo-600 focus:border-indigo-600"
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="password"
+                className="block text-sm font-semibold text-gray-900"
+              >
+                Password
+              </label>
+              <input
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-1 focus:ring-indigo-600 focus:border-indigo-600"
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="password"
+                className="block text-sm font-semibold text-gray-900"
+              >
+                Password
+              </label>
+              <input
+                placeholder="Enter your Confirm password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-1 focus:ring-indigo-600 focus:border-indigo-600"
+              />
+            </div>
+            Already have an account?{" "}
+            <span
+              className="cursor-pointer text-blue-600"
+              onClick={() => navigate("/login-page")}
+            >
+              Login Here
+            </span>
+            <div className="mt-4">
+              <button
+                type="submit"
+                className="w-full bg-indigo-600 text-white px-4 py-2 rounded-md font-semibold shadow-sm hover:bg-indigo-500"
+              >
+                Sign in
+              </button>
+            </div>
+          </form>
         </div>
-        <div style={{ marginBottom: "20px", marginTop: "20px" }}>
-          <label>Enter Password</label>
-          <input
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <div style={{ marginBottom: "20px", marginTop: "20px" }}>
-          <label>Enter Confirm Password</label>
-          <input
-            type="password"
-            placeholder="Enter your Confirm password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </div>
-        Already have an account?
-        <span
-          style={{ cursor: "pointer", color: "blue" }}
-          onClick={() => navigate("/login-page")}
-        >
-          Login Here
-        </span>
-        <div style={{ marginBottom: "20px", marginTop: "20px" }}>
-          <button>Register</button>
-        </div>
-      </form>
+      </div>
+      {/*  */}
     </div>
   );
 };

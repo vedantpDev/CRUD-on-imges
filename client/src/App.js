@@ -107,24 +107,11 @@ function App() {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
-      <div
-        style={{
-          padding: "20px",
-          border: "1px solid #ccc",
-          borderRadius: "8px",
-          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-          width: "50%",
-        }}
-      >
+    <div className="flex justify-center">
+      <div className="p-4 border border-gray-300 rounded-lg shadow-md w-1/2">
         <form
           encType="multipart/form-data"
-          style={{
-            borderRadius: "20px",
-            border: "1px solid",
-            padding: "10px",
-            margin: "10px",
-          }}
+          className="rounded-lg border p-4 m-4"
         >
           <input
             type="file"
@@ -133,29 +120,25 @@ function App() {
             onChange={(e) => handleFile(e)}
           />
         </form>
+
         <div>
           {img && (
-            <>
-              <form onSubmit={handleUploadImg} style={{ margin: "20px" }}>
-                <div style={{ textAlign: "center" }}>
-                  <img style={{ height: "300px", width: "300px" }} src={img} />
-                </div>
-                <button
-                  style={{
-                    ...buttonStyle,
-                    backgroundColor: "#2dbf71",
-                    width: "100%",
-                  }}
-                  type="submit"
-                >
-                  Upload Img
-                </button>
-              </form>
-            </>
+            <form onSubmit={handleUploadImg} className="m-4">
+              <div className="text-center">
+                <img className="h-64 w-64" src={img} alt="Uploaded" />
+              </div>
+              <button
+                className="w-full bg-green-500 text-white py-2 rounded-md"
+                type="submit"
+              >
+                Upload Img
+              </button>
+            </form>
           )}
+
           {allImages && (
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <table>
+            <div className="flex justify-center">
+              <table className="w-[80%]">
                 <thead>
                   <tr>
                     <th>Image</th>
@@ -165,11 +148,11 @@ function App() {
                 <tbody>
                   {allImages.map((data, i) => (
                     <tr key={i}>
-                      <td>
+                      <td className="flex justify-center">
                         <img
                           src={`/${data.imgPath}`}
                           alt={`Image ${i}`}
-                          style={{ height: "100px", width: "100px" }}
+                          className="h-32 w-32"
                         />
                       </td>
                       <td>
@@ -181,20 +164,16 @@ function App() {
                           />
                         )}
                       </td>
-                      <td>
+                      <td className="flex w-full">
                         {updateImgId === data.imgId ? (
                           <>
                             <img
                               src={updatedImg}
                               alt={`Image ${i}`}
-                              style={{ height: "100px", width: "100px" }}
+                              className="h-32 w-32"
                             />
                             <button
-                              style={{
-                                ...buttonStyle,
-                                backgroundColor: "#007bff",
-                                marginLeft: "10px",
-                              }}
+                              className="bg-blue-500 text-white py-2 rounded-md ml-2"
                               onClick={(e) => handleUploadNewImg(e, data.imgId)}
                             >
                               Upload New Image
@@ -202,11 +181,7 @@ function App() {
                           </>
                         ) : (
                           <button
-                            style={{
-                              ...buttonStyle,
-                              backgroundColor: "#007bff",
-                              marginLeft: "10px",
-                            }}
+                            className="bg-blue-500 text-white py-2 rounded-md ml-2 w-full"
                             onClick={(e) => handleUpdate(e, data.imgId)}
                           >
                             Update
@@ -214,11 +189,7 @@ function App() {
                         )}
 
                         <button
-                          style={{
-                            ...buttonStyle,
-                            marginLeft: "10px",
-                            backgroundColor: "red",
-                          }}
+                          className="bg-red-500 text-white py-2 rounded-md ml-2 w-full"
                           onClick={(e) => handleDelete(e, data.imgId)}
                         >
                           Delete
@@ -233,7 +204,7 @@ function App() {
         </div>
         <button
           onClick={handleSignOut}
-          style={{ ...buttonStyle, width: "100%", backgroundColor: "red" }}
+          className="w-full bg-red-500 text-white py-2 rounded-md mt-4"
         >
           Logout
         </button>
