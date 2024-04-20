@@ -74,10 +74,13 @@ function App() {
       .catch((err) => console.log(err));
   };
 
-  const handleDelete = async (e, id) => {
+  const handleDelete = async (e, id, imgPath) => {
     e.preventDefault();
     await axios
-      .delete(`${process.env.REACT_APP_SERVER_URL}/api/deleteImg/${id}`)
+      .post(`${process.env.REACT_APP_SERVER_URL}/api/deleteImg`, {
+        imgId: id,
+        imgPath,
+      })
       .then((res) => setReRender(!reRender))
       .catch((err) => console.log(err));
   };
@@ -93,16 +96,19 @@ function App() {
     setUpdatedImg(URL.createObjectURL(e.target.files[0]));
   };
 
-  const handleUploadNewImg = async (e, id) => {
+  const handleUploadNewImg = async (e, id, imgPath) => {
     e.preventDefault();
     const data = new FormData();
     data.append("file", updateImgData);
+    data.append("imgId", id);
+    data.append("prevImgPath", imgPath);
     await axios
-      .post(`${process.env.REACT_APP_SERVER_URL}/api/updateImg`, {
-        imgId: id,
-        ...updateImgData,
+      .post(`${process.env.REACT_APP_SERVER_URL}/api/updateImg`, data)
+      .then((res) => {
+        setUpdateImgId();
+        setUpdatedImg("");
+        setReRender(!reRender);
       })
-      .then((res) => setReRender(!reRender))
       .catch((err) => console.log(err));
   };
 
@@ -165,7 +171,7 @@ function App() {
                         )}
                       </td>
                       <td className="flex w-full">
-                        {updateImgId === data.imgId ? (
+                        {updateImgId === data.imgId && updatedImg ? (
                           <>
                             <img
                               src={updatedImg}
@@ -174,7 +180,9 @@ function App() {
                             />
                             <button
                               className="bg-blue-500 text-white py-2 rounded-md ml-2"
-                              onClick={(e) => handleUploadNewImg(e, data.imgId)}
+                              onClick={(e) =>
+                                handleUploadNewImg(e, data.imgId, data.imgPath)
+                              }
                             >
                               Upload New Image
                             </button>
@@ -190,7 +198,9 @@ function App() {
 
                         <button
                           className="bg-red-500 text-white py-2 rounded-md ml-2 w-full"
-                          onClick={(e) => handleDelete(e, data.imgId)}
+                          onClick={(e) =>
+                            handleDelete(e, data.imgId, data.imgPath)
+                          }
                         >
                           Delete
                         </button>

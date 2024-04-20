@@ -6,6 +6,7 @@ const multer = require("multer");
 const app = express();
 const connectDB = require("./connectDB/index");
 let connect = connectDB();
+const fs = require("fs");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -38,7 +39,7 @@ app.post("/api/registerUser", async (req, res) => {
       res.status(200).send({ data, message: "User Register Successfully" });
     });
   } catch (error) {
-    res.status(error.statusCode).send(error.message);
+    res.status(error.response.status).send({ message: error.message });
   }
 });
 
@@ -54,7 +55,7 @@ app.get("/api/getAllImages", async (req, res) => {
       res.status(200).send({ data: allImgData });
     });
   } catch (error) {
-    res.status(error.statusCode).send(error.message);
+    res.status(error.response.status).send({ message: error.message });
   }
 });
 
@@ -69,36 +70,37 @@ app.post("/api/uploadImg", uploadMulter.single("file"), (req, res) => {
       res.status(200).send({ data });
     });
   } catch (error) {
-    res.status(error.statusCode).send(error.message);
+    res.status(error.response.status).send({ message: error.message });
   }
 });
 
 app.post("/api/updateImg", uploadMulter.single("file"), async (req, res) => {
-  console.log(req.body);
-  const { imgId } = req.body;
-  // try {
-  //   const q = `UPDATE Customers SET imgPath = ? WHERE ID = ?;`;
-  //   connect.query(q, [imgId], (err, data) => {
-  //     if (err) return new Error(err);
-  //     res.status(200).send({ data });
-  //   });
-  //   console.log(imgId);
-  // } catch (error) {
-  //   res.status(error.statusCode).send(error.message);
-  // }
-});
-
-app.delete("/api/deleteImg/:id", async (req, res) => {
-  const { id } = req.params;
+  const { imgId, prevImgPath } = req.body;
+  const file = req.file;
+  const path = file.path.split("\\").join("/");
   try {
-    const q = `DELETE FROM images WHERE ID = ?;`;
-    connect.query(q, [id], (err, data) => {
+    const q = `UPDATE images SET imgPath = ? WHERE ID = ?;`;
+    connect.query(q, [path, imgId], (err, data) => {
       if (err) return new Error(err);
+      fs.unlinkSync(`./${prevImgPath}`);
       res.status(200).send({ data });
     });
   } catch (error) {
-    console.log(error);
-    res.status(error.statusCode).send(error.message);
+    res.status(error.response.status).send({ message: error.message });
+  }
+});
+
+app.post("/api/deleteImg", async (req, res) => {
+  const { imgId, imgPath } = req.body;
+  try {
+    const q = `DELETE FROM images WHERE ID = ?;`;
+    connect.query(q, [imgId], (err, data) => {
+      if (err) return new Error(err);
+      fs.unlinkSync(`./${imgPath}`);
+      res.status(200).send({ data });
+    });
+  } catch (error) {
+    res.status(error.response.status).send({ message: error.message });
   }
 });
 
