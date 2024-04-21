@@ -18,7 +18,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_SERVER_URL}/api/getAllImages`)
+      .get(`/api/getAllImages`)
       .then((res) => {
         setAllImages(res.data.data);
       })
@@ -46,7 +46,7 @@ function App() {
     const data = new FormData();
     data.append("file", imgData);
     await axios
-      .post(`${process.env.REACT_APP_SERVER_URL}/api/uploadImg`, data, {
+      .post(`/api/uploadImg`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -63,7 +63,7 @@ function App() {
   const handleDelete = async (e, id, imgPath) => {
     e.preventDefault();
     await axios
-      .post(`${process.env.REACT_APP_SERVER_URL}/api/deleteImg`, {
+      .post(`/api/deleteImg`, {
         imgId: id,
         imgPath,
       })
@@ -89,7 +89,7 @@ function App() {
     data.append("imgId", id);
     data.append("prevImgPath", imgPath);
     await axios
-      .post(`${process.env.REACT_APP_SERVER_URL}/api/updateImg`, data)
+      .post(`/api/updateImg`, data)
       .then((res) => {
         setUpdateImgId();
         setUpdatedImg("");

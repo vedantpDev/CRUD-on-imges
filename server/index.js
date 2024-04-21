@@ -29,19 +29,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use("/uploads", express.static("uploads"));
 
-app.post("/api/registerUser", async (req, res) => {
-  const { email, name } = req.body;
-  try {
-    let q = `INSERT INTO users (name, email)
-    VALUES (${name}, ${email})`;
-    connect.query(q, (err, data) => {
-      if (err) return new Error(err);
-      res.status(200).send({ data, message: "User Register Successfully" });
-    });
-  } catch (error) {
-    res.status(error.response.status).send({ message: error.message });
-  }
-});
+// app.post("/api/registerUser", async (req, res) => {
+//   const { email, name } = req.body;
+//   try {
+//     let q = `INSERT INTO users (name, email)
+//     VALUES (${name}, ${email})`;
+//     connect.query(q, (err, data) => {
+//       if (err) return new Error(err);
+//       res.status(200).send({ data, message: "User Register Successfully" });
+//     });
+//   } catch (error) {
+//     res.status(error.response.status).send({ message: error.message });
+//   }
+// });
 
 app.get("/api/getAllImages", async (req, res) => {
   try {
