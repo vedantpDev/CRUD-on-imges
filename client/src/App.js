@@ -1,23 +1,9 @@
-import { RegisterForm } from "./components";
 import { signOut } from "firebase/auth";
 import { auth } from "./firebase/db";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import "./App.css";
-
-const buttonStyle = {
-  border: "none",
-  color: "white",
-  padding: "15px 32px",
-  textAlign: "center",
-  textDecoration: "none",
-  display: "inline-block",
-  fontSize: "16px",
-  margin: "4px 2px",
-  cursor: "pointer",
-  borderRadius: "8px",
-};
 
 function App() {
   const imgInputRef = useRef(null);
